@@ -58,7 +58,7 @@ function checkCaptchaAnswer($answ){
 }
 
 /**
- * Проверяеь валидность заполлнения полей формы
+ * Проверяет валидность заполлнения полей формы
  * @param array $formData - массив с данными формы
  * @return array|bool - TRUE если форма валидка, массив со списком ошибок, если нет
  */
@@ -112,12 +112,15 @@ function processTemplateErrorOutput($tpl, array $data = array()){
     return $tpl;
 }
 
+/**
+ * Генерирует капчу. Возвращает вопрос. Ответ устанавливает в сессию
+ * @return string
+ */
 function generateCaptcha(){
     $answ = rand(1, 20);
     $marker = rand(0,1)? '+': '-';
 
     $b = rand(1,$answ);
-    $a;
     switch($marker){
         case '+':
             $a = $answ - $b;
@@ -129,5 +132,12 @@ function generateCaptcha(){
 
     $_SESSION['captcha'] = $answ;
     return $a.' '.$marker.' '.$b;
+}
 
+/**
+ * @param array $msgData
+ * @return bool
+ */
+function saveMessage(array $msgData){
+    return false;
 }

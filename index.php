@@ -4,6 +4,7 @@ require_once('inc/inc.php');
 
 $pageTpl = getTemplate('page');
 $form = getTemplate('form');
+$msg = "";
 
 $formData = getFormData();
 
@@ -12,7 +13,12 @@ if(isFormSubmitted()){
     if($validateFormResult!== true) {
         $form = processTemplateErrorOutput($form, $validateFormResult);
     } else {
-        $formData['messageText'] = "";
+        if(saveMessage($formData)){
+            header('Location: '.$_SERVER['REQUEST_URI']);
+        } else {
+            $msg = 'Ошибка сохранения';
+        }
+
     }
 }
 
@@ -20,7 +26,8 @@ $form = processTemplace($form, $formData);
 
 $page = processTemplace($pageTpl, array(
     'FORM' => $form,
-    'CAPTCHA' => generateCaptcha()
+    'CAPTCHA' => generateCaptcha(),
+    'MSG' => $msg
 ));
 
 echo $page;
