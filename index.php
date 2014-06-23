@@ -2,4 +2,11 @@
 
 require_once('inc/inc.php');
 
-echo getTemplate('page');
+$pageTpl = getTemplate('page');
+$formTpl = getTemplate('form');
+
+$page = processTemplace($pageTpl, array(
+    'FORM' => $formTpl
+));
+
+echo $page;
